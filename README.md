@@ -29,6 +29,7 @@ Visit `localhost:4000` to see the application.
 - `https://www.geeksforgeeks.org/run-python-script-node-js-using-child-process-spawn-method/amp/`
 - `http://rwet.decontextualize.com/book/textblob/`
 - `https://www.google.com/search?q=precision+recall&sxsrf=ACYBGNTQTMnDEPGWwrNVN__MViNEtL6I7Q:1577357409073&tbm=isch&source=iu&ictx=1&fir=tmtmMVoERvLNrM%253A%252CrCa1-SuJ1Z_myM%252C%252Fm%252F03d144_&vet=1&usg=AI4_-kSWKI13Th0iwTfa5hLKCXI7Oiwp7g&sa=X&ved=2ahUKEwj7vrSgktPmAhXF3J4KHTa_AFoQ_B0wEnoECAoQAw#imgrc=tmtmMVoERvLNrM:`
+- `https://medium.com/@cristhianboujon/how-to-list-the-most-common-words-from-text-corpus-using-scikit-learn-dad4d0cab41d`
 
 # TODO:
 - Finish downloading and tagging all job related emails
