@@ -1,4 +1,5 @@
 from flask import Flask
+import os
 
 UPLOAD_FOLDER = './app/analysis'
 ALLOWED_EXTENSIONS = {'csv', 'pdf'}
