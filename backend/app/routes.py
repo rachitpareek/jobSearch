@@ -1,4 +1,5 @@
 import os
+import time
 from app import app, tester, ALLOWED_EXTENSIONS
 from flask import render_template, jsonify, request
 from werkzeug.utils import secure_filename
@@ -8,7 +9,10 @@ FILENAME = ""
 @app.route('/')
 @app.route('/index')
 def index():
-    return str(tester.run())
+    show = tester.run()
+    if isinstance(show, str):
+        return render_template('index.html', no_table=True)
+    return render_template('index.html', no_table=False, tables=[show.to_html(classes='data', header="true")], titles=show.columns.values)
 	
 @app.route('/upload', methods = ['GET', 'POST'])
 def upload_file():
@@ -23,3 +27,6 @@ def upload_file():
         return 'File ' + FILENAME + ' uploaded successfully!' 
     elif request.method == 'GET':
         return render_template('upload.html')
+
+# delete from git repo
+# deploy

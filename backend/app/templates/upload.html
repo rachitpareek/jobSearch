@@ -1,15 +1,25 @@
 <html>
    <HEAD>
-
+      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+        <script type="text/javascript">
+            function loading(){
+               document.getElementById("loading").style.display = "block";
+               document.getElementById("content").style.display = "none";      
+            }
+         </script>
       <TITLE>Upload Your File</TITLE>
-      
    </HEAD>
    <body>
-      <h1>Upload your file for analysis here!</h1>
-      <form action = "/upload" method = "POST" 
-         enctype = "multipart/form-data">
-         <input type = "file" name = "file" />
-         <input type = "submit"/>
-      </form>
+      <div id="loading">
+         <img src="{{ url_for('static', filename='loadingimage.gif') }}">
+      </div>
+      <div id="content">
+         <h1>Upload your file for analysis here!</h1>
+         <form action = "/upload" method = "POST" 
+            enctype = "multipart/form-data" onsubmit="loading();">
+            <input type = "file" name = "file" />
+            <input type = "submit"/>
+         </form>
+      </div>
    </body>
 </html>

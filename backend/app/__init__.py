@@ -3,7 +3,7 @@ from flask import Flask
 UPLOAD_FOLDER = './app/analysis'
 ALLOWED_EXTENSIONS = {'csv', 'pdf'}
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='templates/static',)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 

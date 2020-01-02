@@ -1,6 +1,11 @@
 import pandas as pd 
 from app import routes
+import os
 
 def run():
-    data = pd.read_csv('./analysis/' + routes.FILENAME)
-    return data.columns
+    try:
+        data = pd.read_csv('./app/analysis/' + routes.FILENAME)
+        os.remove('./app/analysis/' + routes.FILENAME)
+        return data
+    except:
+        return 'The file does not yet exist! Please upload one.'
