@@ -37,5 +37,7 @@ def analyze():
     return render_template('analysis.html', results=results)
 
 # delete from git repo
+# clean stuff up
 # tag data
-# what should the api return?
+# design api
+# delete node app, rename flask one
