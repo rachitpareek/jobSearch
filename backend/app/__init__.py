@@ -1,10 +1,11 @@
 from flask import Flask
-import os
+from flask_bootstrap import Bootstrap
 
-UPLOAD_FOLDER = './app/analysis'
+UPLOAD_FOLDER = './app'
 ALLOWED_EXTENSIONS = {'csv', 'pdf'}
 
 app = Flask(__name__, static_folder='templates/static',)
+Bootstrap(app)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 

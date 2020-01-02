@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>See your table!</title>
+    </head>
+    <body>
+        <p>Below is the data returned from analysis:</p>
+        <ul>
+            <li>Time the program took to run: Approx {{ results["ttr"] }} minutes</li>
+            <li>Dimensions of table: {{ results["table_shape"] }}</li>
+            <li>Training set size: {{ results["tss"] }}</li>
+            <li>Test set size: {{ results["testss"] }}</li>
+            <li>Top 15 senders: {{ results.top_senders }}</li>
+            <li>Top 15 words unrelated to internships: {{ results.top_unrelated_words }}</li>
+            <li>Top 15 words related to internships: {{ results.top_related_words }}</li>      
+            <li>Proportion of internship-related emails sent during the school year: {{ results.prop_during_school }}</li>     
+        </ul>
+    </body>
+</html>

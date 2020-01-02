@@ -10,12 +10,19 @@
     </head>
     <body>
         {% if not no_table %}
-        <p>Below is the table you uploaded!</p>
+        <p>Please click here to analyze the file below. This will take a long time, approximately 4 minutes.</p>
+        <form action="/analyze">
+            <input type="submit" value="Analyze the file." />
+        </form>
+        <p>Below are the first up to 50 rows of the table you uploaded!</p>
         {% for table in tables %}
             {{ table|safe }}
         {% endfor %}
         {% else %}
-        <p>Please upload a table!</p>
+        <p>Please click here to go and upload a file for analysis.</p>
+        <form action="/upload">
+            <input type="submit" value="Upload a file" />
+        </form>
         {% endif %}
     </body>
 </html>

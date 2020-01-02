@@ -1,7 +1,8 @@
 import os
 import time
-from app import app, tester, ALLOWED_EXTENSIONS
-from flask import render_template, jsonify, request
+import json
+from app import app, tester, analysis, ALLOWED_EXTENSIONS
+from flask import render_template, jsonify, request, redirect
 from werkzeug.utils import secure_filename
 
 FILENAME = ""
@@ -24,9 +25,16 @@ def upload_file():
         FILENAME = f.filename
         filename = secure_filename(f.filename)
         f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return 'File ' + FILENAME + ' uploaded successfully!' 
+        return redirect("/")
     elif request.method == 'GET':
         return render_template('upload.html')
+
+@app.route('/analyze')
+def analyze():
+    results = analysis.run()
+    if not results:
+        return "The table uploaded didn't have the correct columns for analysis." 
+    return render_template('analysis.html', results=results)
 
 # delete from git repo
 # tag data
