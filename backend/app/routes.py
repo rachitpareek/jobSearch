@@ -29,4 +29,6 @@ def upload_file():
         return render_template('upload.html')
 
 # delete from git repo
-# deploy
+# deploy to heroku
+# tag data
+# what should the api return?
