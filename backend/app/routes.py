@@ -39,5 +39,5 @@ def analyze():
 # delete from git repo
 # clean stuff up
 # tag data
-# design api
+# design api - need to redo, otherwise memory error comes. also design itself
 # delete node app, rename flask one
