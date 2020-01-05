@@ -21,7 +21,7 @@ discuss
 # Flask Application
 discuss
 
-![image](sankey.png "jobSearch Sankey Diagram")
+![image](sankey/sankey.png "jobSearch Sankey Diagram")
 
 # Installation & Running
 Clone this repo, then run the following commands:
