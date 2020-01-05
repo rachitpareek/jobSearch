@@ -7,33 +7,29 @@ This project aims to understand the effectiveness of different strategies for ap
 # Structure 
 It contains three main components:
 - a jupyter notebook
+- a sankey diagram
 - a flask app
 
+# Jupyter Notebook
+discuss
 
-# Installation
+# Sankey Diagram
+discuss
+
+# Flask Application
+discuss
+
+![image](sankey.png "jobSearch Sankey Diagram")
+
+# Installation & Running
 `Make sure you have a correctly formatted email content file. A correct formatted file will...`
-```Javascript
+```Python
 cd jobSearch
-npm install
-npm start
+pip install
+flask run
 ```
 
-# Running
-Visit `localhost:4000` to see the application. 
+Visit `localhost:5000` to see the application. 
 
 # Improvements
 - Improve the classifier!
-
-# Important Links
-- `https://github.com/NicolaLC/ElectronFloatingScreen`
-- `https://pythontips.com/2013/07/30/what-is-virtualenv/`
-- `https://www.geeksforgeeks.org/run-python-script-node-js-using-child-process-spawn-method/amp/`
-- `http://rwet.decontextualize.com/book/textblob/`
-- `https://www.google.com/search?q=precision+recall&sxsrf=ACYBGNTQTMnDEPGWwrNVN__MViNEtL6I7Q:1577357409073&tbm=isch&source=iu&ictx=1&fir=tmtmMVoERvLNrM%253A%252CrCa1-SuJ1Z_myM%252C%252Fm%252F03d144_&vet=1&usg=AI4_-kSWKI13Th0iwTfa5hLKCXI7Oiwp7g&sa=X&ved=2ahUKEwj7vrSgktPmAhXF3J4KHTa_AFoQ_B0wEnoECAoQAw#imgrc=tmtmMVoERvLNrM:`
-- `https://medium.com/@cristhianboujon/how-to-list-the-most-common-words-from-text-corpus-using-scikit-learn-dad4d0cab41d`
-
-# TODO:
-- Finish downloading and tagging all job related emails
-- Use oversampling
-- Make 4-way error box
-- Make sankey diagram
