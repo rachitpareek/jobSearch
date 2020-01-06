@@ -34,4 +34,5 @@ flask run
 Visit `localhost:5000` to see the application. 
 
 # Improvements
-- Improve the classifier!
+- Improve the classifier.
+- Allow users to reset their passwords.
