@@ -5,7 +5,7 @@ fig = go.Figure(data=[go.Sankey(
       pad = 15,
       thickness = 20,
       line = dict(color = "black", width = 1),
-      label = ["Applied: 360", "Rejected: 29", "Coding First Round: 22", 
+      label = ["Applied: 444", "Rejected: 29", "Coding First Round: 22", 
                 "Phone First Round: 33", "Final Round: 10", "Offer: 6", 
                 "No Response: 360"]
     ),
