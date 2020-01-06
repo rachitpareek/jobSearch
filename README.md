@@ -8,7 +8,7 @@ Need to update that^
 
 # Structure 
 It contains three main components:
-- a jupyter notebook
+- a Jupyter notebook
 - a sankey diagram
 - a flask app
 
