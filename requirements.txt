@@ -52,6 +52,7 @@ parso==0.5.2
 pexpect==4.7.0
 pickleshare==0.7.5
 plotly==4.4.1
+psycopg2==2.8.4
 prometheus-client==0.7.1
 prompt-toolkit==3.0.2
 ptyprocess==0.6.0
