@@ -1,68 +1,70 @@
-{% extends 'bootstrap/base.html' %}
-
-{% block scripts %}
+{% extends 'bootstrap/base.html' %} {% block scripts %}
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-147664644-2"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
 
-  gtag('config', 'UA-147664644-2');
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'UA-147664644-2');
 </script>
-{% endblock %}
-
-{% block title %}
-    {% if title %}{{ title }}{% else %}{{ 'Internship Tracker' }}{% endif %}
-{% endblock %}
-
-{% block navbar %}
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                {% if current_user.is_anonymous %}
-                <a class="navbar-brand" href="{{ url_for('home') }}">Internship Tracker</a>
-                {% else %}
-                <a class="navbar-brand" href="{{ url_for('home') }}">Internship Tracker</a>
+{% endblock %} {% block title %} {% if title %}{{ title }}{% else %}{{ 'Internship Tracker' }}{% endif %} {% endblock %} {% block navbar %}
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button> {% if current_user.is_anonymous %}
+            <a class="navbar-brand" href="{{ url_for('home') }}">Internship
+                Tracker</a> {% else %}
+            <a class="navbar-brand" href="{{ url_for('home') }}">Internship
+                Tracker</a> {% endif %}
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                {% if not current_user.is_anonymous %}
+                <li><a href="{{ url_for('dashboard') }}">{{ 'Dashboard' }}</a></li>
+                <li><a href="{{ url_for('explore') }}">{{ 'Tracking' }}</a></li>
+                <li><a href="{{ url_for('dashboard') }}">{{ 'Visuals' }}</a></li>
                 {% endif %}
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    {% if not current_user.is_anonymous %}
-                    <li><a href="{{ url_for('dashboard') }}">{{ 'Dashboard' }}</a></li>
-                    <li><a href="{{ url_for('explore') }}">{{ 'Tracking' }}</a></li>
-                    <li><a href="{{ url_for('dashboard') }}">{{ 'Visuals' }}</a></li>
-                    {% endif %}
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    {% if current_user.is_anonymous %}
-                    <li><a href="{{ url_for('login') }}">{{ 'Login' }}</a></li>
-                    {% else %}
-                    <li><a href="{{ url_for('user', username=current_user.username) }}">Profile</a></li>
-                    <li><a href="{{ url_for('logout') }}">{{ 'Logout' }}</a></li>
-                    {% endif %}
-                </ul>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_anonymous %}
+                <li><a href="{{ url_for('login') }}">{{ 'Login' }}</a></li>
+                {% else %}
+                <li><a href="{{ url_for('user', username=current_user.username)
+                        }}">Profile</a></li>
+                <li><a href="{{ url_for('logout') }}">{{ 'Logout' }}</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %} {% block content %}
+<div class="container">
+    {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+    <div class="alert alert-info" role="alert">{{ message }}</div>
+    {% endfor %} {% endif %} {% endwith %} {% block app_content %}{% endblock %}
+    <footer class="page-footer fixed-bottom font-small cyan pt-70 darken-3">
+        <hr />
+        <div class="container-fluid text-center text-md-left">
+            <div class="row">
+                <div class="col-md-12 my-3">
+                    <h5 class="text-uppercase">Internship Tracker</h5>
+                    <div class="my-5 flex-center">
+                        <a href="https://github.com/rachitpareek/jobSearch">
+                            Github
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-    </nav>
-{% endblock %}
+    </footer>
 
-{% block content %}
-    <div class="container">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-info" role="alert">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-        {% endwith %}
-        
-        {% block app_content %}{% endblock %}
-    </div>
+</div>
 {% endblock %}

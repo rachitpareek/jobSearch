@@ -1,15 +1,20 @@
-{% extends "base.html" %}
-
-{% block app_content %}
-    <div class="jumbotron">
-        <h1>Welcome to the Internship Tracker!</h1>
-        {% if current_user.is_anonymous %}
-            <p>Use this website to keep track of your internship applications and generate a beautiful sankey style diagram at any point in the process.
-            <a href="{{ url_for('register') }}">Register</a> to get started!
-            </p>
-        {% else %}
-            <p>Visit your <a href="{{ url_for('dashboard') }}">dashboard!</a></p>
-        {% endif %}
-        
-      </div>
-{% endblock %}
+{% extends "base.html" %} {% block app_content %}
+<div class="jumbotron">
+    <h1>Welcome to the Internship Tracker!</h1>
+    {% if current_user.is_anonymous %}
+    <p>Use this website to keep track of your internship applications and generate a beautiful sankey diagram at any point in the process.
+        <a href="{{ url_for('register') }}">Register</a> to get started!
+    </p>
+    {% else %}
+    <p>Visit your <a href="{{ url_for('dashboard') }}">dashboard!</a></p>
+    {% endif %}
+</div>
+{% if current_user.is_anonymous %}
+<hr/>
+<div class="container">
+    <div class="col-md">
+        <h3>Sample diagram:</h3>
+        <img src=".{{ url_for('static', filename='sankey.png') }}" class="img-responsive" alt="Sankey diagram">
+    </div>
+</div>
+{% endif %} {% endblock %}
