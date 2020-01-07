@@ -14,6 +14,8 @@ def clean_date(date):
     return date.strftime("%d %B, %Y") + " at " + date.strftime("%-I:%-M %p")
 
 def make_sankey():
+    if current_user.is_anonymous:
+        return ""
     apps = list(current_user.positions_applied_to())
     companies = set([app.company for app in apps])
     data = [len([app for app in apps if app.status == "Applied"]), 
