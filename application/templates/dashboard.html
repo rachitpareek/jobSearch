@@ -2,7 +2,9 @@
 <h1>Hi, {{ current_user.username }}! View your recent applications here</h1>
 <br/>
 <h5>Visit the <a href="{{ url_for('tracking') }}"><b>tracking</b></a> tab to track a new application.</h5>
-{% for app in apps %} {% include '_app.html' %} {% endfor %}
+{% if apps|length == 0 %}
+<p>You have not inputted any applications yet!</p>
+{% endif %} {% for app in apps %} {% include '_app.html' %} {% endfor %} {% if apps|length != 0 %}
 <nav aria-label="...">
     <ul class="pager">
         <li class="previous{% if not prev_url %} disabled{% endif %}">
@@ -17,4 +19,4 @@
         </li>
     </ul>
 </nav>
-{% endblock %}
+{% endif %} {% endblock %}

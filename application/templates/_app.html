@@ -1,12 +1,14 @@
 <table class="table table-hover">
     <tr>
         <td>
-            <a href="{{ url_for('application', app_id=app.id) }}">
-                <b>Company: {{ app.company }}</b>
-            </a>
+            <b>Company: {{ app.company }}</b>
             <br> Position: {{ app.position }}
             <br> Status: {{ app.status }}
-            <br> Inputted on: {{ clean_date(app.timestamp) }}
+            <br> Inputted on {{ clean_date(app.timestamp) }}
+            <br>
+            <a href="{{ url_for('application', app_id=app.id) }}">
+                <b>View this application</b>
+            </a>
         </td>
     </tr>
 </table>

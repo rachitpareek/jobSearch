@@ -41,7 +41,7 @@ def tracking():
         input_app = Application(company=form.company.data.strip(), position=form.position.data.strip(), status=form.status.data, applier=current_user)
         db.session.add(input_app)
         db.session.commit()
-        flash('You have inputted a new application for a role at' + form.company.data.strip() + '!')
+        flash('You have inputted a new application for a role at ' + form.company.data.strip() + '!')
         return redirect(url_for('tracking'))
     return render_template("tracking.html", title='Tracking', form=form)
 
@@ -98,11 +98,11 @@ def application(app_id):
 @login_required
 def analytics():
     page = request.args.get('page', 1, type=int)
-    apps = current_user.positions_applied_to().paginate(
-        page, app.config['APPS_PER_PAGE'], False)
-    companies = set([app.company for app in apps.items])
-    print(companies)
-    next_url = url_for('dashboard', page=apps.next_num) if apps.has_next else None
-    prev_url = url_for('dashboard', page=apps.prev_num) if apps.has_prev else None
+    apps = list(current_user.positions_applied_to())
+    companies = set([app.company for app in apps])
+    data = [len([app for app in apps if app.status == "Applied"]), 
+            len([app for app in apps if app.status == "Interviewing"]),
+            len([app for app in apps if app.status == "Offer"]),
+            len([app for app in apps if app.status == "Rejected"])]
     return render_template('analytics.html', title='Home', user=current_user,
-                           apps=apps.items, companies=companies)
+                           apps=apps, companies=companies, data=data)

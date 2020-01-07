@@ -42,4 +42,4 @@ class Application(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return '<Application {}>'.format(self.position)
+        return '<Application for {} at {}>'.format(self.position, self.company)

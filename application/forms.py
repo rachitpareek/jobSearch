@@ -54,6 +54,6 @@ class ApplicationForm(FlaskForm):
         DataRequired(), Length(min=1, max=140)])
     status = SelectField(
         'Application Status',
-        choices=[('Applied', 'Applied'), ('Rejected', 'Rejected'), ('Interviewing', 'Interviewing'), ('Offer', 'Offer')]
+        choices=[('Applied', 'Applied'), ('Interviewing', 'Interviewing'), ('Offer', 'Offer'), ('Rejected', 'Rejected')]
     )
     submit = SubmitField('Submit')
