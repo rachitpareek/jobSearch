@@ -2,19 +2,13 @@ from application import app, db
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
-from application.forms import LoginForm, RegistrationForm, EditProfileForm, ApplicationForm
+from application.forms import LoginForm, RegistrationForm, EditProfileForm, ApplicationForm, UpdateApplicationForm, DeleteApplicationForm
 from application.models import User, Application
 from datetime import datetime, timedelta
 
 def clean_date(date):
     date = date - timedelta(hours=8, minutes=0)
     return date.strftime("%d %B, %Y") + " at " + date.strftime("%-I:%-M %p")
-
-@app.before_request
-def before_request():
-    if current_user.is_authenticated:
-        current_user.last_seen = datetime.utcnow()
-        db.session.commit()
 
 @app.route('/')
 @app.route('/home')
@@ -88,11 +82,28 @@ def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     return render_template('user.html', user=user)
 
-@app.route('/application/<app_id>')
+@app.route('/edit_application/<app_id>', methods=['GET', 'POST'])
 @login_required
-def application(app_id):
+def edit_application(app_id):
     app = Application.query.filter_by(id=app_id).first_or_404()
-    return render_template('application.html', app=app, clean_date=clean_date)
+    form = UpdateApplicationForm(app.status)
+    delete_form = DeleteApplicationForm()
+    if delete_form.validate_on_submit():
+        if delete_form.delete.data == "Yes":
+            db.session.delete(app)
+            db.session.commit()
+            flash('You have deleted the application.')
+            return redirect(url_for('dashboard'))
+        else:
+            flash('You have not deleted this application.')
+            return redirect(url_for('edit_application', app_id=app.id))
+    elif form.validate_on_submit():
+        app.status = form.status.data
+        app.last_updated = datetime.utcnow()
+        db.session.commit()
+        flash('You have updated the application\'s status to ' + form.status.data)
+        return redirect(url_for('dashboard'))
+    return render_template('edit_application.html', app=app, form=form, delete_form=delete_form, clean_date=clean_date)
 
 @app.route('/analytics')
 @login_required

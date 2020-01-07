@@ -60,10 +60,10 @@ class ApplicationForm(FlaskForm):
 
 class UpdateApplicationForm(FlaskForm):
     status = SelectField(
-        'Current Application Status',
+        'Application Status',
         choices=[('Applied', 'Applied'), ('Interviewing', 'Interviewing'), ('Offer', 'Offer'), ('Rejected', 'Rejected')]
     )
-    submit = SubmitField('Submit')
+    submit = SubmitField('Update')
 
     def __init__(self, original_status, *args, **kwargs):
         super(UpdateApplicationForm, self).__init__(*args, **kwargs)
@@ -72,3 +72,10 @@ class UpdateApplicationForm(FlaskForm):
     def validate_status(self, username):
         if self.original_status == self.status.data:
             raise ValidationError('You chose the same status as is currently stored.')
+
+class DeleteApplicationForm(FlaskForm):
+    delete = SelectField(
+        'Are you sure you would like to delete this application?',
+        choices=[('No', 'No'), ('Yes', 'Yes')]
+    )
+    submit = SubmitField('Delete')

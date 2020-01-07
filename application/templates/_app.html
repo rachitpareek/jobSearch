@@ -4,10 +4,12 @@
             <b>Company: {{ app.company }}</b>
             <br> Position: {{ app.position }}
             <br> Status: {{ app.status }}
-            <br> Inputted on {{ clean_date(app.timestamp) }}
+            {% if app.last_updated %}
+            <br> Last updated on {{ clean_date(app.last_updated) }}
+            {% endif %}
             <br>
-            <a href="{{ url_for('application', app_id=app.id) }}">
-                <b>View this application</b>
+            <a href="{{ url_for('edit_application', app_id=app.id) }}">
+                <b>Edit this application</b>
             </a>
         </td>
     </tr>

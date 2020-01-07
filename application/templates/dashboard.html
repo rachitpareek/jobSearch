@@ -1,5 +1,5 @@
 {% extends "base.html" %} {% import 'bootstrap/wtf.html' as wtf %} {% block app_content %}
-<h1>Hi, {{ current_user.username }}! View your recent applications here</h1>
+<h1>Hi, {{ current_user.username }}! View your recent applications here.</h1>
 <br/>
 <h5>Visit the <a href="{{ url_for('tracking') }}"><b>tracking</b></a> tab to track a new application.</h5>
 {% if apps|length == 0 %}
