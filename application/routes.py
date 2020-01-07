@@ -9,10 +9,12 @@ from application.models import User, Application
 from datetime import datetime, timedelta
 import os
 
+# Formats date for rendering
 def clean_date(date):
     date = date - timedelta(hours=8, minutes=0)
     return date.strftime("%d %B, %Y") + " at " + date.strftime("%-I:%-M %p")
 
+# Creates string HTML of sankey diagram from current user's application data
 def make_sankey():
     if current_user.is_anonymous or len(list(current_user.positions_applied_to())) == 0:
         return ""
