@@ -1,41 +1,51 @@
-# Overview
-This application uses Jupyter Notebook, Pandas, NLTK, Scikit Learn, Matplotlib, Plotly, Flask, PostgreSQL, and other technologies to help break down my internship search over the past recruiting season (for Summer 2020). I've created a web application to help others track and visualize their applications as well. The site is live at `internshiptracker.herokuapp.com`.
 
-# Demo
+# Internship Tracker
+##### By Rachit Pareek
+
+## Overview
+This application uses Jupyter Notebook, Pandas, NLTK, Scikit Learn, Matplotlib, Plotly, Flask, Bootstrap, PostgreSQL, and a variety of other technologies to help break down my internship search over the past recruiting season (for Summer 2020). I've created a web application to help others track and visualize their applications as well. The site is live for public use at `internshiptracker.herokuapp.com`.
+
+## Demo
 ![Internship Tracker Demo](src/demo.gif)
 
-# Motivation
-This project aims to understand the effectiveness of different strategies for applying to jobs (especially by looking at response rates for cold applications). Additionally, it's my first attempt at creating an email classifier using the Bag of Words method (through Scikit's CountVectorizer and a Naive Bayes model). The application first reduces the contents of emails to vectors of word counts from a general corpus (which, for the first 1231 emails was of size 17,700 after removing Scikit's default `english` stopwords.). Then, I trained a Naive Bayes model on my pre-tagged emails (1 if job-related, 0 otherwise). After classifying the emails, I created a confusion matrix (`this will soon be added below`). Finally, I filtered the emails to only those classified as job-related and manually created the Sankey diagram below (`also to be added soon`).
+## Motivation
+This project was an opportunity to gain some experience with Scikit and Flask while shedding light on the challenging internship recruiting process. Through my work, I gained a stronger understanding of the effectiveness of different application strategies and gained additional fluency in the libraries listed above.
 
-Need to update that^
-
-# Structure 
+## Structure 
 It contains three main components:
 - a Jupyter notebook
-- a sankey diagram
-- a flask app
+- a Sankey diagram
+- a Flask app
 
-# Jupyter Notebook
-discuss
+## Jupyter Notebook
+This notebook contains exploratory analysis and modeling on my internship search process. The main goal here was to use a text version of my emails to create a classifier that predicts whether a given email is career-related or not. Feel free to view it [here](./analysis.ipynb).
 
-# Sankey Diagram
-discuss
-
-# Flask Application
-discuss
-
-![image](sankey/sankey.png "jobSearch Sankey Diagram")
-
-# Installation & Running
-Clone this repo, then run the following commands:
+#### Installation & Running
+Clone this repo, then navigate to the notebook after running the following commands (ideally using venv):
 ```Python
 cd jobSearch
 pip install
-flask run
+jupyter notebook
+```
+
+## Sankey Diagram
+The Sankey flow diagram below represents my Summer 2020 internship search.
+
+![image](sankey/sankey.png "jobSearch Sankey Diagram")
+
+## Flask Application: Internship Tracker
+This application allows users to register, input, track, & update all of their internship applications, and will generate a Sankey diagram for them using the most current data about their applications. The app is built with Flask, a variety of Flask plugins, Plotly, and PostgreSQL. It is hosted on Heroku: `internshiptracker.herokuapp.com`. 
+
+#### Installation & Running
+Clone this repo, then run the following commands (ideally using venv):
+```Python
+cd jobSearch
+pip install
+python app.py
 ```
 
 Visit `localhost:5000` to see the application. 
 
-# Improvements
+## Improvements
 - Improve the classifier.
 - Allow users to reset their passwords.
