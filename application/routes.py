@@ -31,9 +31,9 @@ def make_sankey():
         ),
         link = dict(
             #change last back to 1
-        source = [0, 0, 0, 0],
+        source = [0, 0, 0, 1],
         target = [3, 1, 4, 2],
-        value = [data[3], data[1], no_response, data[2]]
+        value = [data[3], data[1] + data[2], no_response, data[2]]
     ))])
     plt_html = po.plot(fig, filename='./application/templates/sankey.html', include_plotlyjs=True, output_type='div')
     return Markup(plt_html)
