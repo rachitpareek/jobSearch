@@ -2,7 +2,7 @@
 <div class="jumbotron">
     <h1>Welcome to the Internship Tracker!</h1>
     {% if current_user.is_anonymous %}
-    <p>Use this website to keep track of your internship applications and generate a beautiful sankey diagram at any point in the process.
+    <p>Use this website to keep track of your internship applications and generate an interactive sankey diagram at any point in the process.
         <a href="{{ url_for('register') }}">Register</a> to get started!
     </p>
     {% else %}
@@ -17,4 +17,7 @@
         <img src=".{{ url_for('static', filename='sankey.png') }}" class="img-responsive" alt="Sankey diagram">
     </div>
 </div>
+{% else %}
+<h1>View your interactive sankey diagram below:</h1>
+{{ plt }}
 {% endif %} {% endblock %}

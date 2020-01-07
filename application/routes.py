@@ -1,19 +1,48 @@
 from application import app, db
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, Markup
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
+import plotly.graph_objects as go
+from plotly import offline as po
 from application.forms import LoginForm, RegistrationForm, EditProfileForm, ApplicationForm, UpdateApplicationForm, DeleteApplicationForm
 from application.models import User, Application
 from datetime import datetime, timedelta
+import os
 
 def clean_date(date):
     date = date - timedelta(hours=8, minutes=0)
     return date.strftime("%d %B, %Y") + " at " + date.strftime("%-I:%-M %p")
 
+def make_sankey():
+    apps = list(current_user.positions_applied_to())
+    companies = set([app.company for app in apps])
+    data = [len([app for app in apps if app.status == "Applied"]), 
+            len([app for app in apps if app.status == "Interviewing"]),
+            len([app for app in apps if app.status == "Offer"]),
+            len([app for app in apps if app.status == "Rejected"])]
+    no_response = sum(data) - (data[1] + data[2] + data[3])
+    fig = go.Figure(data=[go.Sankey(
+        node = dict(
+        pad = 15,
+        thickness = 20,
+        line = dict(color = "black", width = 1),
+        label = ["Applied: " + str(sum(data)), "Interviewing: "  + str(data[1]), 
+                "Offer: " + str(data[2]), "Rejected: " + str(data[3]), "No response: " + str(no_response)]
+        ),
+        link = dict(
+            #change last back to 1
+        source = [0, 0, 0, 0],
+        target = [3, 1, 4, 2],
+        value = [data[3], data[1], no_response, data[2]]
+    ))])
+    plt_html = po.plot(fig, filename='./application/templates/sankey.html', include_plotlyjs=True, output_type='div')
+    return Markup(plt_html)
+
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('home.html')
+    plt = make_sankey()
+    return render_template('home.html', plt = plt)
 
 @app.route('/dashboard')
 @login_required
@@ -108,12 +137,12 @@ def edit_application(app_id):
 @app.route('/analytics')
 @login_required
 def analytics():
-    page = request.args.get('page', 1, type=int)
     apps = list(current_user.positions_applied_to())
     companies = set([app.company for app in apps])
     data = [len([app for app in apps if app.status == "Applied"]), 
             len([app for app in apps if app.status == "Interviewing"]),
             len([app for app in apps if app.status == "Offer"]),
             len([app for app in apps if app.status == "Rejected"])]
+    plt = make_sankey()
     return render_template('analytics.html', title='Home', user=current_user,
-                           apps=apps, companies=companies, data=data)
+                           apps=apps, companies=companies, data=data, plt=plt)
