@@ -3,16 +3,16 @@
 <p>You have submitted {{ user.positions_applied_to().count() }}
     {% if user.positions_applied_to().count() == 1 %}application{% else %}applications{% endif %} at
     {{ companies|length }} unique {% if companies|length == 1 %}company{% else %}companies{%
-                endif %}. Curren application statuses:</p>
+                endif %}. Current application statuses:</p>
 <table class="table table-hover">
     <tr>
         <td>
-            <b>Applied:</b> {{ data[0] }} {% if data[0] == 1 %}application{% else %}applications{% endif %}
+            <b>Applied:</b> {{ data[0] }} {% if data[0] == 1 %}application{% else %}applications{% endif %}.
         </td>
     </tr>
     <tr>
         <td>
-            <b>Interviewing:</b> {{ data[1] }} {% if data[1] == 1 %}application{% else %}applications{% endif %}
+            <b>Interviewing:</b> {{ data[1] }} {% if data[1] == 1 %}application{% else %}applications{% endif %}.
         </td>
     </tr>
     <tr>
@@ -26,6 +26,10 @@
         </td>
     </tr>
 </table>
+{% if plt != "" %}
 <h1>View your interactive sankey diagram below:</h1>
 {{ plt }}
+{% else %}
+<h3>Track some applications to see an interactive sankey diagram below!</h3>
+{% endif %}
 {% endblock %}

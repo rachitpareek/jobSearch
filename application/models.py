@@ -38,6 +38,7 @@ class Application(db.Model):
     company = db.Column(db.String(140))
     position = db.Column(db.String(140))
     status = db.Column(db.String(140))
+    interviewed = db.Column(db.String(5), index=True, default="False")
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     last_updated = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

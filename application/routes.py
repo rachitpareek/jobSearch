@@ -14,30 +14,30 @@ def clean_date(date):
     return date.strftime("%d %B, %Y") + " at " + date.strftime("%-I:%-M %p")
 
 def make_sankey():
-    if current_user.is_anonymous:
+    if current_user.is_anonymous or len(list(current_user.positions_applied_to())) == 0:
         return ""
     apps = list(current_user.positions_applied_to())
     companies = set([app.company for app in apps])
     data = [len([app for app in apps if app.status == "Applied"]), 
             len([app for app in apps if app.status == "Interviewing"]),
             len([app for app in apps if app.status == "Offer"]),
-            len([app for app in apps if app.status == "Rejected"])]
-    no_response = sum(data) - (data[1] + data[2] + data[3])
+            len([app for app in apps if app.status == "Rejected" and app.interviewed == "False"]), 
+            len([app for app in apps if app.status == "Rejected" and app.interviewed == "True"])]
     fig = go.Figure(data=[go.Sankey(
         node = dict(
         pad = 15,
         thickness = 20,
         line = dict(color = "black", width = 1),
-        label = ["Applied: " + str(sum(data)), "Interviewing: "  + str(data[1] + data[2]), 
-                "Offer: " + str(data[2]), "Rejected: " + str(data[3]), "No response: " + str(no_response)]
+        label = ["Applied: " + str(sum(data)), "Interviewed: "  + str(data[1] + data[2] + data[4]), 
+                "Offer: " + str(data[2]), "Rejected: " + str(data[3]), "No response: " + str(data[0] + data[1])]
         ),
         link = dict(
             #change last back to 1
-        source = [0, 0, 0, 1],
-        target = [3, 1, 4, 2],
-        value = [data[3], data[1] + data[2], no_response, data[2]]
+        source = [0, 0, 0, 1, 1, 1],
+        target = [3, 1, 4, 2, 3, 4],
+        value = [data[3], data[1] + data[2] + data[4], data[0], data[2], data[4], data[1]]
     ))])
-    plt_html = po.plot(fig, filename='./application/templates/sankey.html', include_plotlyjs=True, output_type='div')
+    plt_html = po.plot(fig, include_plotlyjs=True, output_type='div')
     return Markup(plt_html)
 
 @app.route('/')
@@ -64,6 +64,8 @@ def tracking():
     form = ApplicationForm()
     if form.validate_on_submit():
         input_app = Application(company=form.company.data.strip(), position=form.position.data.strip(), status=form.status.data, applier=current_user)
+        if input_app.status == "Interviewing":
+            input_app.interviewed = "True"
         db.session.add(input_app)
         db.session.commit()
         flash('You have inputted a new application for a role at ' + form.company.data.strip() + '!')
@@ -99,8 +101,8 @@ def register():
         return redirect(url_for('dashboard'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
-        user.set_password(form.password.data)
+        user = User(username=form.username.data.strip(), email=form.email.data.strip())
+        user.set_password(form.password.data.strip())
         db.session.add(user)
         db.session.commit()
         flash('Congratulations, you are now a registered user!')
@@ -126,11 +128,13 @@ def edit_application(app_id):
             flash('You have deleted the application.')
             return redirect(url_for('dashboard'))
         else:
-            flash('You have not deleted this application.')
+            flash('Please select \'yes\' to delete this application.')
             return redirect(url_for('edit_application', app_id=app.id))
     elif form.validate_on_submit():
         app.status = form.status.data
         app.last_updated = datetime.utcnow()
+        if app.status == "Interviewing":
+            app.interviewed = "True"
         db.session.commit()
         flash('You have updated the application\'s status to ' + form.status.data)
         return redirect(url_for('dashboard'))

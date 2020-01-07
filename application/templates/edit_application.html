@@ -13,6 +13,11 @@
             {% if app.last_updated %}
             <br> Last updated on {{ clean_date(app.last_updated) }}
             {% endif %}
+            {% if app.interviewed == "True" %}
+            <br> You have interviewed for this role.
+            {% else %}
+            <br> You have yet to interview for this role.
+            {% endif %}
         </td>
     </tr>
     <tr>

@@ -6,7 +6,7 @@
         <a href="{{ url_for('register') }}">Register</a> to get started!
     </p>
     {% else %}
-    <p>Visit your <a href="{{ url_for('dashboard') }}">dashboard!</a></p>
+    <p>Visit your <a href="{{ url_for('dashboard') }}">dashboard</a> or view your <a href="{{ url_for('analytics') }}">sankey diagram & analytics</a>!</p>
     {% endif %}
 </div>
 {% if current_user.is_anonymous %}
@@ -17,7 +17,5 @@
         <img src=".{{ url_for('static', filename='sankey.png') }}" class="img-responsive" alt="Sankey diagram">
     </div>
 </div>
-{% else %}
-<h1>View your interactive sankey diagram below:</h1>
-{{ plt }}
-{% endif %} {% endblock %}
+{% endif %}
+{% endblock %}
