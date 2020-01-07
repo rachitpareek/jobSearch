@@ -3,7 +3,7 @@
     <tr>
         <td>
             <h1>User: {{ user.username }}</h1>
-            <p>You have submitted {{ user.positions_applied_to().count() }} applications. Good luck!</p>
+            <p>You have submitted {{ user.positions_applied_to().count() }} {% if user.positions_applied_to().count() == 1 %}application{% else %}applications{% endif %}. Good luck!</p>
         </td>
     </tr>
 </table>

@@ -53,7 +53,22 @@ class ApplicationForm(FlaskForm):
     position = TextAreaField('Position', validators=[
         DataRequired(), Length(min=1, max=140)])
     status = SelectField(
-        'Application Status',
+        'Current Application Status',
         choices=[('Applied', 'Applied'), ('Interviewing', 'Interviewing'), ('Offer', 'Offer'), ('Rejected', 'Rejected')]
     )
     submit = SubmitField('Submit')
+
+class UpdateApplicationForm(FlaskForm):
+    status = SelectField(
+        'Current Application Status',
+        choices=[('Applied', 'Applied'), ('Interviewing', 'Interviewing'), ('Offer', 'Offer'), ('Rejected', 'Rejected')]
+    )
+    submit = SubmitField('Submit')
+
+    def __init__(self, original_status, *args, **kwargs):
+        super(UpdateApplicationForm, self).__init__(*args, **kwargs)
+        self.original_status = original_status
+
+    def validate_status(self, username):
+        if self.original_status == self.status.data:
+            raise ValidationError('You chose the same status as is currently stored.')
