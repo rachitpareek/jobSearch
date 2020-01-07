@@ -1,0 +1,19 @@
+{% extends "base.html" %} {% block app_content %}
+<table class="table table-hover">
+    <tr>
+        <h1>User: {{ user.username }}</h1>
+        <p>You have submitted {{ user.positions_applied_to().count() }} applications at {{ companies|length }} unique companies.</p>
+    </tr>
+    <tr>
+        <td class="col-md-6">
+            <h1>User: {{ user.username }}</h1>
+
+        </td>
+        <td class="col-md-6">
+            <h1>User: {{ user.username }}</h1>
+            <p>You have submitted {{ user.positions_applied_to().count() }} applications at {{ companies|length }} unique companies.</p>
+
+        </td>
+    </tr>
+</table>
+{% endblock %}

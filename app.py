@@ -1,6 +1,6 @@
 import os
 from application import app, db
-from application.models import User, Post
+from application.models import User, Application
 
 
 if __name__ == '__main__':
@@ -11,4 +11,4 @@ if __name__ == '__main__':
     
 @app.shell_context_processor
 def make_shell_context():
-    return {'db': db, 'User': User, 'Post': Post}
+    return {'db': db, 'User': User, 'Application': Application}

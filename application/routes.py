@@ -2,10 +2,13 @@ from application import app, db
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
-from application.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm
-from application.models import User, Post
-from datetime import datetime
+from application.forms import LoginForm, RegistrationForm, EditProfileForm, ApplicationForm
+from application.models import User, Application
+from datetime import datetime, timedelta
 
+def clean_date(date):
+    date = date - timedelta(hours=8, minutes=0)
+    return date.strftime("%d %B, %Y") + " at " + date.strftime("%-I:%-M %p")
 
 @app.before_request
 def before_request():
@@ -18,37 +21,29 @@ def before_request():
 def home():
     return render_template('home.html')
 
-@app.route('/explore')
-@login_required
-def explore():
-    page = request.args.get('page', 1, type=int)
-    posts = Post.query.order_by(Post.timestamp.desc()).paginate(
-        page, app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('explore', page=posts.next_num) if posts.has_next else None
-    prev_url = url_for('explore', page=posts.prev_num) if posts.has_prev else None
-    return render_template("index.html", title='Explore', posts=posts.items,
-                          next_url=next_url, prev_url=prev_url)
-
-
-@app.route('/dashboard', methods=['GET', 'POST'])
+@app.route('/dashboard')
 @login_required
 def dashboard():
-    form = PostForm()
-    if form.validate_on_submit():
-        post = Post(body=form.post.data, author=current_user)
-        db.session.add(post)
-        db.session.commit()
-        flash('Your post is now live!')
-        return redirect(url_for('dashboard'))
     page = request.args.get('page', 1, type=int)
-    posts = current_user.followed_posts().paginate(
-        page, app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('dashboard', page=posts.next_num) if posts.has_next else None
-    prev_url = url_for('dashboard', page=posts.prev_num) if posts.has_prev else None
-    return render_template('index.html', title='Home', form=form,
-                           posts=posts.items, next_url=next_url,
-                           prev_url=prev_url)
+    apps = current_user.positions_applied_to().paginate(
+        page, app.config['APPS_PER_PAGE'], False)
+    next_url = url_for('dashboard', page=apps.next_num) if apps.has_next else None
+    prev_url = url_for('dashboard', page=apps.prev_num) if apps.has_prev else None
+    return render_template('dashboard.html', title='Home',
+                           apps=apps.items, next_url=next_url,
+                           prev_url=prev_url, clean_date=clean_date)
 
+@app.route('/tracking', methods=['GET', 'POST'])
+@login_required
+def tracking():
+    form = ApplicationForm()
+    if form.validate_on_submit():
+        input_app = Application(company=form.company.data.strip(), position=form.position.data.strip(), status=form.status.data, applier=current_user)
+        db.session.add(input_app)
+        db.session.commit()
+        flash('You have inputted a new application for a role at' + form.company.data.strip() + '!')
+        return redirect(url_for('tracking'))
+    return render_template("tracking.html", title='Tracking', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -67,13 +62,11 @@ def login():
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
 
-
 @app.route('/logout')
 def logout():
     logout_user()
     flash('You have logged out.')
     return redirect(url_for('login'))
-
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -89,64 +82,27 @@ def register():
         return redirect(url_for('login'))
     return render_template('registration.html', title='Register', form=form)
 
-
 @app.route('/user/<username>')
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
+    return render_template('user.html', user=user)
+
+@app.route('/application/<app_id>')
+@login_required
+def application(app_id):
+    app = Application.query.filter_by(id=app_id).first_or_404()
+    return render_template('application.html', app=app, clean_date=clean_date)
+
+@app.route('/analytics')
+@login_required
+def analytics():
     page = request.args.get('page', 1, type=int)
-    posts = user.posts.order_by(Post.timestamp.desc()).paginate(
-        page, app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('user', username=user.username, page=posts.next_num) if posts.has_next else None
-    prev_url = url_for('user', username=user.username, page=posts.prev_num) if posts.has_prev else None
-    return render_template('user.html', user=user, posts=posts.items,
-                           next_url=next_url, prev_url=prev_url)
-
-
-@app.route('/edit_profile', methods=['GET', 'POST'])
-@login_required
-def edit_profile():
-    form = EditProfileForm(current_user.username)
-    if form.validate_on_submit():
-        current_user.username = form.username.data
-        current_user.about_me = form.about_me.data
-        db.session.commit()
-        flash('Your changes have been saved.')
-        return redirect(url_for('edit_profile'))
-    elif request.method == 'GET':
-        form.username.data = current_user.username
-        form.about_me.data = current_user.about_me
-    return render_template('edit_profile.html', title='Edit Profile',
-                           form=form)
-
-
-@app.route('/follow/<username>')
-@login_required
-def follow(username):
-    user = User.query.filter_by(username=username).first()
-    if user is None:
-        flash('User {} not found.'.format(username))
-        return redirect(url_for('dashboard'))
-    if user == current_user:
-        flash('You cannot follow yourself!')
-        return redirect(url_for('user', username=username))
-    current_user.follow(user)
-    db.session.commit()
-    flash('You are following {}!'.format(username))
-    return redirect(url_for('user', username=username))
-
-
-@app.route('/unfollow/<username>')
-@login_required
-def unfollow(username):
-    user = User.query.filter_by(username=username).first()
-    if user is None:
-        flash('User {} not found.'.format(username))
-        return redirect(url_for('dashboard'))
-    if user == current_user:
-        flash('You cannot unfollow yourself!')
-        return redirect(url_for('user', username=username))
-    current_user.unfollow(user)
-    db.session.commit()
-    flash('You are not following {}.'.format(username))
-    return redirect(url_for('user', username=username))
+    apps = current_user.positions_applied_to().paginate(
+        page, app.config['APPS_PER_PAGE'], False)
+    companies = set([app.company for app in apps.items])
+    print(companies)
+    next_url = url_for('dashboard', page=apps.next_num) if apps.has_next else None
+    prev_url = url_for('dashboard', page=apps.prev_num) if apps.has_prev else None
+    return render_template('analytics.html', title='Home', user=current_user,
+                           apps=apps.items, companies=companies)

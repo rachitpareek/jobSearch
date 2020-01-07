@@ -10,6 +10,9 @@
     gtag('js', new Date());
     gtag('config', 'UA-147664644-2');
 </script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
 {% endblock %} {% block title %} {% if title %}{{ title }}{% else %}{{ 'Internship Tracker' }}{% endif %} {% endblock %} {% block navbar %}
 <nav class="navbar navbar-default">
     <div class="container">
@@ -25,12 +28,12 @@
             <a class="navbar-brand" href="{{ url_for('home') }}">Internship
                 Tracker</a> {% endif %}
         </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 {% if not current_user.is_anonymous %}
                 <li><a href="{{ url_for('dashboard') }}">{{ 'Dashboard' }}</a></li>
-                <li><a href="{{ url_for('explore') }}">{{ 'Tracking' }}</a></li>
-                <li><a href="{{ url_for('dashboard') }}">{{ 'Visuals' }}</a></li>
+                <li><a href="{{ url_for('tracking') }}">{{ 'Tracking' }}</a></li>
+                <li><a href="{{ url_for('analytics') }}">{{ 'Analytics' }}</a></li>
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -54,8 +57,12 @@
         <hr />
         <div class="container-fluid text-center text-md-left">
             <div class="row">
-                <div class="col-md-12 my-3">
-                    <h5 class="text-uppercase">Internship Tracker</h5>
+                <div class="col-md-6 my-3">
+                    <div class="my-5 flex-center">
+                        <h5 class="text-uppercase">Internship Tracker</h5>
+                    </div>
+                </div>
+                <div class="col-md-6 my-3">
                     <div class="my-5 flex-center">
                         <a href="https://github.com/rachitpareek/jobSearch">
                             Github

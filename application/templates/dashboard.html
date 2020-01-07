@@ -1,0 +1,20 @@
+{% extends "base.html" %} {% import 'bootstrap/wtf.html' as wtf %} {% block app_content %}
+<h1>Hi, {{ current_user.username }}! View your recent applications here</h1>
+<br/>
+<h5>Visit the <a href="{{ url_for('tracking') }}"><b>tracking</b></a> tab to track a new application.</h5>
+{% for app in apps %} {% include '_app.html' %} {% endfor %}
+<nav aria-label="...">
+    <ul class="pager">
+        <li class="previous{% if not prev_url %} disabled{% endif %}">
+            <a href="{{ prev_url or '#' }}">
+                <span aria-hidden="true">&larr;</span> Newer apps
+            </a>
+        </li>
+        <li class="next{% if not next_url %} disabled{% endif %}">
+            <a href="{{ next_url or '#' }}">
+                    Older apps <span aria-hidden="true">&rarr;</span>
+                </a>
+        </li>
+    </ul>
+</nav>
+{% endblock %}
