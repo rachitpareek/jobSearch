@@ -26,7 +26,7 @@ def make_sankey():
         pad = 15,
         thickness = 20,
         line = dict(color = "black", width = 1),
-        label = ["Applied: " + str(sum(data)), "Interviewing: "  + str(data[1]), 
+        label = ["Applied: " + str(sum(data)), "Interviewing: "  + str(data[1] + data[2]), 
                 "Offer: " + str(data[2]), "Rejected: " + str(data[3]), "No response: " + str(no_response)]
         ),
         link = dict(

@@ -1,12 +1,10 @@
 {% extends "base.html" %} {% block app_content %}
+<h1>User: {{ user.username }}</h1>
+<p>You have submitted {{ user.positions_applied_to().count() }}
+    {% if user.positions_applied_to().count() == 1 %}application{% else %}applications{% endif %} at
+    {{ companies|length }} unique {% if companies|length == 1 %}company{% else %}companies{%
+                endif %}. Curren application statuses:</p>
 <table class="table table-hover">
-    <tr>
-        <td>
-            <h1>User: {{ user.username }}</h1>
-            <p>You have submitted {{ user.positions_applied_to().count() }} {% if user.positions_applied_to().count() == 1 %}application{% else %}applications{% endif %} at {{ companies|length }} unique {% if companies|length == 1 %}company{% else %}companies{%
-                endif %}.</p>
-        </td>
-    </tr>
     <tr>
         <td>
             <b>Applied:</b> {{ data[0] }} {% if data[0] == 1 %}application{% else %}applications{% endif %}
