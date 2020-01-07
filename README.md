@@ -28,11 +28,6 @@ pip install
 jupyter notebook
 ```
 
-## Sankey Diagram
-The Sankey flow diagram below represents my Summer 2020 internship search.
-
-![image](sankey/sankey.png "jobSearch Sankey Diagram")
-
 ## Flask Application: Internship Tracker
 This application allows users to register, input, track, & update all of their internship applications, and will generate a Sankey diagram for them using the most current data about their applications. The app is built with Flask, a variety of Flask plugins, Plotly, and PostgreSQL. It is hosted on Heroku: `internshiptracker.herokuapp.com`. 
 
@@ -45,6 +40,11 @@ python app.py
 ```
 
 Visit `localhost:5000` to see the application. 
+
+## Sankey Diagram
+The Sankey flow diagram below represents my Summer 2020 internship search.
+
+![image](sankey/sankey.png "jobSearch Sankey Diagram")
 
 ## Improvements
 - Improve the classifier.
