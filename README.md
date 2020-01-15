@@ -49,3 +49,4 @@ The Sankey flow diagram below represents my Summer 2020 internship search.
 ## Improvements
 - Improve the classifier.
 - Allow users to reset their passwords.
+- Speed up generation of the diagram by recalculating & storing it whenever a user updates their application.
